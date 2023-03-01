@@ -12,32 +12,25 @@ export default function ProductDescription() {
 
         const formData = new FormData(e.target),
             formDataObj = Object.fromEntries(formData.entries())
-        console.log(formDataObj.productName)
+
 
         // OpenAIApi
         const configuration = new Configuration({
-            apiKey: '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',
+            apiKey: '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',
         });
         const openai = new OpenAIApi(configuration);
 
-        openai.createImageVariation({
-            // model: "text-davinci-003",
-            // prompt: `${formDataObj.productName}`,
-            image: "https://images.rawpixel.com/image_png_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjEwNDAtZS0xOS5wbmc.png",
-            // temperature: 0.7,
-            // max_tokens: 256,
-            // top_p: 1,
-            // frequency_penalty: 0,
-            // presence_penalty: 0,
-            n: 10,
+        openai.createImage({
+            prompt: `${formDataObj.productName}`,
+            n: +formDataObj.imgNum,
             size: '1024x1024'
         }).then((response) => {
             setHeading(`AI Product Description Suggestions for: ${formDataObj.productName}`);
-            setResponse(response.data);
-            console.log(response.data, "ppp");
+            setResponse(response.data.data);
+            console.log(response.data.data, "ppp");
         }).catch((err) => {
             // setResponse(err.response.data.error.message);
-            console.log("ddd", err.response.data.error.message);
+            console.log("ddd", err);
         })
 
     }
@@ -61,6 +54,10 @@ export default function ProductDescription() {
                         <Form.Text className='text-muted'>
                             Enter as much information as possible for more accurate descriptions.
                         </Form.Text>
+                        <Form.Control
+                            type='number'
+                            name="imgNum"
+                            placeholder='Number Of Images' />
                     </Form.Group>
 
                     <Button variant='primary' size='lg' type='submit'>
@@ -75,8 +72,8 @@ export default function ProductDescription() {
                         <hr />
                         <br />
                         <Card.Text>
-                            {/* <h4>{response}</h4> */}
-                            {response !== '... await the response' && response?.data.map((img) =>
+
+                            {response !== '... await the response' && response.map((img) =>
                                 <><img src={img.url} alt="default" />
                                     <br />
                                 </>

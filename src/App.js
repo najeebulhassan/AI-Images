@@ -14,10 +14,11 @@ function App() {
       <div className="App">
         <Navigation />
         <Routes>
-          <Route path='/' exact element={<Home />} />
-          <Route path='/product-description' element={<ProductDescription />} />
+          {/* <Route path='/' exact element={<Home />} /> */}
+          <Route path='/' exact element={<ProductDescription />} />
+          {/* <Route path='/product-description' element={<ProductDescription />} />
           <Route path='/cold-emails' element={<ColdEmails />} />
-          <Route path='/tweets' element={<Tweets />} />
+          <Route path='/tweets' element={<Tweets />} /> */}
         </Routes>
       </div>
     </Router>
