@@ -20,21 +20,23 @@ export default function ProductDescription() {
         });
         const openai = new OpenAIApi(configuration);
 
-        openai.createImage({
+        openai.createImageVariation({
             // model: "text-davinci-003",
-            prompt: `${formDataObj.productName}`,
+            // prompt: `${formDataObj.productName}`,
+            image: "https://images.rawpixel.com/image_png_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjEwNDAtZS0xOS5wbmc.png",
             // temperature: 0.7,
             // max_tokens: 256,
             // top_p: 1,
             // frequency_penalty: 0,
             // presence_penalty: 0,
-            n: 1,
+            n: 10,
             size: '1024x1024'
         }).then((response) => {
             setHeading(`AI Product Description Suggestions for: ${formDataObj.productName}`);
-            setResponse(`${response.data.data[0].url}`);
+            setResponse(response.data);
+            console.log(response.data, "ppp");
         }).catch((err) => {
-            setResponse(err.response.data.error.message);
+            // setResponse(err.response.data.error.message);
             console.log("ddd", err.response.data.error.message);
         })
 
@@ -74,7 +76,11 @@ export default function ProductDescription() {
                         <br />
                         <Card.Text>
                             {/* <h4>{response}</h4> */}
-                            <img src={response} alt="default"/>
+                            {response !== '... await the response' && response?.data.map((img) =>
+                                <><img src={img.url} alt="default" />
+                                    <br />
+                                </>
+                            )}
                         </Card.Text>
                     </Card.Body>
                 </Card>
